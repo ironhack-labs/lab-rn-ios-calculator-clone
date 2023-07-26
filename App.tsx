@@ -1,8 +1,13 @@
 import React from 'react';
-import {CalculatorScreen} from './src/screens/CalculatorScreen';
+import { SafeAreaView } from 'react-native';
+import CalculatorScreen from './src/screens/CalculatorScreen';
 
 const App = () => {
-  return <CalculatorScreen />;
+  return (
+    <SafeAreaView>
+      <CalculatorScreen />
+    </SafeAreaView>
+  );
 };
 
 export default App;
