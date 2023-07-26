@@ -1,5 +1,5 @@
 import {TouchableOpacity, Text} from 'react-native';
-import React, {useCallback, useContext} from 'react';
+import React, {useContext} from 'react';
 import {CalculatorContext} from '../calculator-provider';
 
 import {calculatorButtonStyles} from './calculator-button.styles';
@@ -9,7 +9,7 @@ type CalculatorButtonSymbol =
   | '='
   | '+'
   | 'x'
-  | '/'
+  | '÷'
   | '-'
   | 'AC'
   | 'del'
@@ -22,7 +22,7 @@ type CalculatorButtonProps = {
 
 const buttonModeMapper = {
   digit: calculatorButtonStyles.digit,
-  operation: calculatorButtonStyles.operation,
+  arithmeticOperation: calculatorButtonStyles.operation,
   other: calculatorButtonStyles.other,
 };
 
@@ -30,27 +30,51 @@ const getButtonMode = (value: string) => {
   if (/^\d+|\.$/.test(value)) {
     return 'digit';
   }
-  if (/^[-+x=/]$/.test(value)) {
-    return 'operation';
+  if (/^[-+x=÷]$/.test(value)) {
+    return 'arithmeticOperation';
   }
 
   return 'other';
 };
 
-// TODO: refactor button and splice for operation buttons
 export const CalculatorButton = ({value, rowspan}: CalculatorButtonProps) => {
-  const {pressDigit, operation} = useContext(CalculatorContext);
+  const {
+    pressDigit,
+    currentValue,
+    activeOperator,
+    deleteOperation,
+    resetOperation,
+    negateOperation,
+    equalOperation,
+    arithmeticOperation,
+  } = useContext(CalculatorContext);
 
   const buttonMode = getButtonMode(value.toString());
+  const buttonActive = value === activeOperator && !currentValue;
 
-  const handleOnPress = useCallback(() => {
-    if (buttonMode === 'digit') {
+  const handleOnPress = () => {
+    if (typeof value === 'number' || value === '.') {
       return pressDigit(`${value}`);
     }
-    if (buttonMode === 'operation') {
-      return operation(`${value}`);
+
+    switch (value) {
+      case '+':
+      case '-':
+      case '÷':
+      case 'x':
+        return arithmeticOperation(value);
+      case '+/-':
+        return negateOperation();
+      case '=':
+        return equalOperation();
+      case 'AC':
+        return resetOperation();
+      case 'del':
+        return deleteOperation();
+      default:
+        return;
     }
-  }, [pressDigit, value, buttonMode, operation]);
+  };
 
   return (
     <TouchableOpacity
@@ -60,6 +84,7 @@ export const CalculatorButton = ({value, rowspan}: CalculatorButtonProps) => {
         rowspan && {
           width: calculatorButtonStyles.button.width * rowspan,
         },
+        buttonActive && calculatorButtonStyles.buttonActive,
       ]}
       onPress={handleOnPress}
       activeOpacity={0.5}>
@@ -67,6 +92,7 @@ export const CalculatorButton = ({value, rowspan}: CalculatorButtonProps) => {
         style={[
           calculatorButtonStyles.buttonText,
           buttonModeMapper[buttonMode],
+          buttonActive && calculatorButtonStyles.buttonActive,
         ]}>
         {value}
       </Text>

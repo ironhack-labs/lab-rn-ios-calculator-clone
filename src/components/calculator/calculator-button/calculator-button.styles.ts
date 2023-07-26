@@ -12,6 +12,10 @@ export const calculatorButtonStyles = StyleSheet.create({
   buttonText: {
     fontSize: 24,
   },
+  buttonActive: {
+    backgroundColor: COLORS.white,
+    color: COLORS.black,
+  },
   digit: {
     backgroundColor: COLORS.grayStrong,
     color: COLORS.white,

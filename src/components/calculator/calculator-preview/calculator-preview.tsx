@@ -4,7 +4,11 @@ import {CalculatorContext} from '../calculator-provider';
 import {calculatorPreviewStyles} from './calculator-preview.styles';
 
 export const CalculatorPreview = () => {
-  const {currentValue} = useContext(CalculatorContext);
+  const {currentValue, total} = useContext(CalculatorContext);
 
-  return <Text style={calculatorPreviewStyles.text}>{currentValue}</Text>;
+  return (
+    <Text style={calculatorPreviewStyles.text}>
+      {!currentValue ? total : currentValue}
+    </Text>
+  );
 };

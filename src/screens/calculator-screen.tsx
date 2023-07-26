@@ -17,7 +17,7 @@ export const CalculatorScreen = () => {
             <Calculator.Button value="AC" />
             <Calculator.Button value="+/-" />
             <Calculator.Button value="del" />
-            <Calculator.Button value="/" />
+            <Calculator.Button value="÷" />
           </View>
           <View style={calculatorScreenStyles.row}>
             <Calculator.Button value={7} />

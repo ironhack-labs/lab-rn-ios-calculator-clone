@@ -1,45 +1,167 @@
 import {useState} from 'react';
 
+import {formatNumber, CalculatorUtils} from '../utils';
+
+type OperatorSymbol = '+' | '-' | '÷' | 'x';
+
+const operatorKeys: {[key in OperatorSymbol]: string} = {
+  '÷': '/',
+  '-': '-',
+  '+': '+',
+  x: '*',
+};
+
 export type ContextCalculator = {
   total: string;
   currentValue: string;
+  activeOperator: OperatorSymbol;
   lastValue: string;
-  currentOperation: string;
-  operation: (operatorSymbol: string) => void;
   pressDigit: (digit: string) => void;
+  deleteOperation: () => void;
+  resetOperation: () => void;
+  negateOperation: () => void;
+  equalOperation: () => void;
+  arithmeticOperation: (operatorSymbol: OperatorSymbol) => void;
+};
+
+const initialValues: Pick<
+  ContextCalculator,
+  'total' | 'currentValue' | 'activeOperator' | 'lastValue'
+> = {
+  total: '0',
+  currentValue: '',
+  lastValue: null,
+  activeOperator: null,
 };
 
 export const useContextCalculator = function () {
   const [state, setState] = useState<ContextCalculator>({
-    total: null,
-    currentValue: '0',
-    lastValue: null,
-    currentOperation: null,
+    ...initialValues,
     pressDigit: (digit: string) => {
-      // TODO: add logic for digit
       setState(prevState => {
-        let currentValue = `${prevState.currentValue}${digit}`;
+        const allowedDigit = CalculatorUtils.allowedDigit(
+          prevState.currentValue,
+          digit,
+        );
 
-        if (prevState.currentValue === '0') {
-          currentValue = digit;
+        const hasMaxDigitsOnScreen = CalculatorUtils.hasMaxDigitsOnScreen(
+          prevState.currentValue,
+        );
+
+        if (!allowedDigit || hasMaxDigitsOnScreen) {
+          return prevState;
         }
 
         return {
           ...prevState,
-          currentValue,
+          currentValue: formatNumber(`${prevState.currentValue}${digit}`),
         };
       });
     },
-    operation: () => {
-      // TODO: add logic for operation
+    deleteOperation: () => {
+      setState(prevState => ({
+        ...prevState,
+        currentValue: formatNumber(prevState.currentValue.slice(0, -1)) || '0',
+      }));
+    },
+    resetOperation: () => {
+      setState(prevState => ({
+        ...prevState,
+        ...initialValues,
+      }));
+    },
+    negateOperation: () => {
+      setState(prevState => ({
+        ...prevState,
+        currentValue: CalculatorUtils.negate(prevState.currentValue),
+      }));
+    },
+    equalOperation: () => {
       setState(prevState => {
-        const total = `${+prevState.total + +prevState.currentValue}`;
+        const prevTotalValue = CalculatorUtils.parseToNumber(prevState.total);
+        if (
+          !prevState.activeOperator ||
+          !prevTotalValue ||
+          (!prevState.currentValue && !prevState.lastValue)
+        ) {
+          return prevState;
+        }
+
+        const currentValue = CalculatorUtils.parseToNumber(
+          prevState.currentValue,
+        );
+
+        if (currentValue) {
+          const totalValue = CalculatorUtils.calculate(
+            `${prevTotalValue} ${
+              operatorKeys[prevState.activeOperator]
+            } ${currentValue}`,
+          );
+
+          return {
+            ...prevState,
+            lastValue: prevState.currentValue,
+            total: formatNumber(totalValue),
+            currentValue: '',
+          };
+        }
+
+        const lastValue = CalculatorUtils.parseToNumber(prevState.lastValue);
+        if (lastValue) {
+          const totalValue = CalculatorUtils.calculate(
+            `${prevTotalValue} ${
+              operatorKeys[prevState.activeOperator]
+            } ${lastValue}`,
+          );
+
+          return {
+            ...prevState,
+            total: formatNumber(totalValue),
+            currentValue: '',
+          };
+        }
+
+        return prevState;
+      });
+    },
+    arithmeticOperation: (operatorSymbol: OperatorSymbol) => {
+      setState(prevState => {
+        const currentValue = CalculatorUtils.parseToNumber(
+          prevState.currentValue,
+        );
+
+        if (!currentValue) {
+          return {
+            ...prevState,
+            activeOperator: operatorSymbol,
+          };
+        }
+
+        const prevTotalValue = CalculatorUtils.parseToNumber(prevState.total);
+        if (!prevTotalValue) {
+          return {
+            ...prevState,
+            lastValue: prevState.currentValue,
+            total: prevState.currentValue,
+            currentValue: '',
+            activeOperator: operatorSymbol,
+          };
+        }
+
+        const totalValue = CalculatorUtils.calculate(
+          `${prevTotalValue} ${
+            operatorKeys[prevState.activeOperator]
+          } ${currentValue}`,
+        );
+
+        const total = formatNumber(totalValue);
 
         return {
           ...prevState,
           lastValue: prevState.currentValue,
           total,
-          currentValue: `${total}`,
+          currentValue: '',
+          activeOperator: operatorSymbol,
         };
       });
     },

@@ -2,12 +2,16 @@ import React, {ReactNode, createContext} from 'react';
 import {useContextCalculator, ContextCalculator} from '../hooks';
 
 export const CalculatorContext = createContext<ContextCalculator>({
-  total: null,
-  currentValue: '0',
-  currentOperation: null,
+  total: '0',
+  currentValue: '',
+  activeOperator: null,
   lastValue: null,
-  operation: () => null,
   pressDigit: () => null,
+  deleteOperation: () => null,
+  resetOperation: () => null,
+  negateOperation: () => null,
+  equalOperation: () => null,
+  arithmeticOperation: () => null,
 });
 
 export const CalculatorProvider = ({children}: {children: ReactNode}) => {
