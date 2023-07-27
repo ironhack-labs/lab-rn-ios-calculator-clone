@@ -1,5 +1,6 @@
 import React from 'react';
-import {CalculatorScreen} from './src/screens/CalculatorScreen';
+import { Text } from 'react-native';
+import { CalculatorScreen } from './src/screens/CalculatorScreen';
 
 const App = () => {
   return <CalculatorScreen />;
