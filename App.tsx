@@ -2,7 +2,7 @@ import React from 'react';
 import CalculatorScreen from './src/screens/CalculatorScreen';
 
 const App = () => {
-  return <CalculatorScreen number={1} />;
+  return <CalculatorScreen/>;
 };
 
 export default App;
