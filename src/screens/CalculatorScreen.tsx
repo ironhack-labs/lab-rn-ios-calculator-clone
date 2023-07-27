@@ -12,6 +12,7 @@ const CalculatorScreen = () => {
   return (
     <SafeAreaView>
       <View style={styles.containerCalculator}>
+        <Text style={styles.currentValue}>{calculator.currentValue}</Text>
         <Text style={styles.result}>{calculator.result}</Text>
         <CalculatorContainer style={styles.containerButtons}>
           <CalculatorButton
@@ -34,7 +35,8 @@ const CalculatorScreen = () => {
             size={30}
             style={styles.button}
             color="#A5A5A5"
-            colorText="black">
+            colorText="black"
+            onPress={() => calculator.deleteLastChar()}>
             del
           </CalculatorButton>
           <CalculatorButton
@@ -140,7 +142,8 @@ const CalculatorScreen = () => {
             size={30}
             style={styles.button}
             color="#F1A43C"
-            colorText="white">
+            colorText="white"
+            onPress={() => calculator.add(calculator.result)}>
             +
           </CalculatorButton>
         </CalculatorContainer>

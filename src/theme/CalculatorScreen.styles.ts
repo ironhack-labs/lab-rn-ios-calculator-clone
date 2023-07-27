@@ -36,4 +36,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 90,
   },
+  currentValue: {
+    color: 'white',
+  },
 });
