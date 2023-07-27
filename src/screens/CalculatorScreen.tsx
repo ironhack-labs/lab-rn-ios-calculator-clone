@@ -26,7 +26,8 @@ const CalculatorScreen = () => {
             size={30}
             style={styles.button}
             color="#A5A5A5"
-            colorText="black">
+            colorText="black"
+            onPress={() => calculator.changeSignal()}>
             +/-
           </CalculatorButton>
           <CalculatorButton

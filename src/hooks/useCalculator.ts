@@ -6,6 +6,10 @@ const useCalculator = () => {
     return /\./.test(str);
   };
 
+  const hasMinus = (str: string): boolean => {
+    return /\-/.test(str);
+  };
+
   const addNumber = (value: string) => {
     if (result === '0') {
       setResult(value);
@@ -15,7 +19,7 @@ const useCalculator = () => {
       }
       setResult(prevResult => prevResult + value);
     }
-  }
+  };
 
   const add = (value: number) => {
     // setResult(prevResult => prevResult + value);
@@ -23,6 +27,14 @@ const useCalculator = () => {
 
   const subtract = (value: number) => {
     // setResult(prevResult => prevResult - value);
+  };
+
+  const changeSignal = () => {
+    if (!hasMinus(result)) {
+      setResult(prevResult => '-' + prevResult);
+    } else {
+      setResult(prevResult => prevResult.replace('-', ''));
+    }
   };
 
   const clear = () => {
@@ -34,6 +46,7 @@ const useCalculator = () => {
     addNumber,
     add,
     subtract,
+    changeSignal,
     clear,
   };
 };
