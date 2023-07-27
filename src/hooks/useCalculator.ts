@@ -41,26 +41,10 @@ const useCalculator = (): [string, string, useCalculatorActions] => {
   const removeLastNumber = () => {
     const isNegative = value.startsWith('-');
     const newValue = isNegative
-      ? value.substring(1, value.length - 1)
-      : value.slice(0, -1);
-    setValue(newValue || '0');
+      ? value.slice(0, -1)
+      : value.substring(1, value.length - 1);
+    setValue(newValue.length > 1 ? newValue : '0');
   };
-
-  //   const removeLastNumber = () => {
-  //     let sign = '';
-  //     let tempValue = value;
-
-  //     if (value.includes('-')) {
-  //       sign = '-';
-  //       tempValue = value.substring(1);
-  //     }
-
-  //     if (tempValue.length > 1) {
-  //       setValue(sign + tempValue.slice(0, -1));
-  //     } else {
-  //       setValue('0');
-  //     }
-  //   };
 
   const setValueIntoPrevValue = () => {
     if (value.endsWith('.')) {
