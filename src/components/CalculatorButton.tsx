@@ -10,7 +10,7 @@ const CalculatorButton = ({
   style,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
+    <TouchableOpacity onPress={() => onPress(children)} activeOpacity={0.7}>
       <View style={[style, color && {backgroundColor: color}]}>
         <Text style={{color: colorText, fontSize: size}}>{children}</Text>
       </View>
