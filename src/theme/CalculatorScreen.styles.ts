@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   buttonLarge: {
     alignItems: 'flex-start',
-    paddingLeft: (WIDTH / 8) - 10,
+    paddingLeft: WIDTH / 8 - 10,
     width: WIDTH / 2 + 20,
     height: WIDTH / 4,
   },

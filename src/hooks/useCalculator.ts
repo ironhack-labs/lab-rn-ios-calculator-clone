@@ -102,7 +102,7 @@ const useCalculator = () => {
     }
     setCurrentValue('');
     setCurrentOperation('');
-  }
+  };
 
   return {
     result,

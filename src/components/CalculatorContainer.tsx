@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {View} from 'react-native';
 
-const CalculatorContainer = ({children, style}) => {
+type TypeButtons = {
+  children: ReactNode;
+  style: object;
+};
+
+const CalculatorContainer = ({children, style}: TypeButtons) => {
   return <View style={style}>{children}</View>;
 };
 

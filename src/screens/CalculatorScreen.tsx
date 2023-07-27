@@ -6,7 +6,6 @@ import CalculatorButton from '../components/CalculatorButton';
 import useCalculator from '../hooks/useCalculator';
 
 const CalculatorScreen = () => {
-
   const calculator = useCalculator();
 
   return (
