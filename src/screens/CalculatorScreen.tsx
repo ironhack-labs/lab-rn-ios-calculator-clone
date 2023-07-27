@@ -43,7 +43,8 @@ const CalculatorScreen = () => {
             size={30}
             style={styles.button}
             color="#F1A43C"
-            colorText="white">
+            colorText="white"
+            onPress={() => calculator.division()}>
             ÷
           </CalculatorButton>
         </CalculatorContainer>
@@ -76,7 +77,8 @@ const CalculatorScreen = () => {
             size={30}
             style={styles.button}
             color="#F1A43C"
-            colorText="white">
+            colorText="white"
+            onPress={() => calculator.multiply()}>
             ×
           </CalculatorButton>
         </CalculatorContainer>
@@ -109,7 +111,8 @@ const CalculatorScreen = () => {
             size={30}
             style={styles.button}
             color="#F1A43C"
-            colorText="white">
+            colorText="white"
+            onPress={() => calculator.subtract()}>
             −
           </CalculatorButton>
         </CalculatorContainer>
@@ -143,7 +146,7 @@ const CalculatorScreen = () => {
             style={styles.button}
             color="#F1A43C"
             colorText="white"
-            onPress={() => calculator.add(calculator.result)}>
+            onPress={() => calculator.add()}>
             +
           </CalculatorButton>
         </CalculatorContainer>
@@ -168,7 +171,8 @@ const CalculatorScreen = () => {
             size={30}
             style={styles.button}
             color="#F1A43C"
-            colorText="white">
+            colorText="white"
+            onPress={() => calculator.setResultOp()}>
             =
           </CalculatorButton>
         </CalculatorContainer>

@@ -37,6 +37,8 @@ export const styles = StyleSheet.create({
     fontSize: 90,
   },
   currentValue: {
+    paddingHorizontal: 15,
     color: 'white',
+    fontSize: 30,
   },
 });
